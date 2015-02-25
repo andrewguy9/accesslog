@@ -4,7 +4,7 @@ tests_require = ['tox', 'pytest']
 
 setup(name='accesslog',
       version='0.1',
-      description='tool which de-duplicates files in a filesystem by checksum.',
+      description='Tool which helps parse access logs into useful blobs.',
       url='http://github.com/andrewguy9/accesslog',
       author='andrew thomson',
       author_email='athomsonguy@gmail.com',
