@@ -13,6 +13,8 @@ def regex_splitter_factory(pattern):
   p = re.compile(pattern)
   def regex_splitter(line):
     match = p.match(line)
+    if match is None:
+      raise ValueError("Failed to match: %s" % line)
     return match.groups()
   return regex_splitter
 

@@ -1,8 +1,8 @@
 import docopt
 import json
 import fileinput
-import sys
-import argparse
+from sys import stdout, stderr
+
 from accesslog import DictReader, TupleReader, whitespace_splitter, regex_splitter_factory
 
 __doc__ = \
@@ -10,7 +10,7 @@ __doc__ = \
 Convert acccess logs into json dictionaries.
 
 Usage:
-  log2dict --regex=<pattern> <fields> [<files>...]
+  log2dict [--regex=<pattern>] <fields> [<files>...]
 
 Options:
   <fields>  Comma delimited list of field names.
@@ -25,7 +25,16 @@ def main():
     splitter = whitespace_splitter
   fields = args['<fields>'].split(",")
   logs = fileinput.input(args['<files>'])
-  reader = DictReader(fields, logs, splitter)
-  for record in reader:
-    print json.dumps(record)
+  reader = iter(DictReader(fields, logs, splitter))
+
+  while True:
+    try:
+      record = next(reader)
+      stdout.write(json.dumps(record))
+      stdout.write("\n")
+      stdout.flush()
+    except StopIteration:
+      break
+    except ValueError as e:
+      stderr.write(str(e))
 
