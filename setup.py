@@ -3,7 +3,7 @@ from setuptools import setup
 tests_require = []
 
 setup(name='accesslog',
-      version='0.2',
+      version='0.3',
       description='Tool which helps parse access logs into useful blobs.',
       url='http://github.com/andrewguy9/accesslog',
       author='andrew thomson',
