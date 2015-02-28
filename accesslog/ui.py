@@ -17,6 +17,9 @@ Options:
   <files>   List of files to read.
 """
 
+def hook_nobuf(filename, mode):
+  return open(filename, mode, 0)
+
 def main():
   args = docopt.docopt(__doc__)
   if args['--regex']:
@@ -24,7 +27,7 @@ def main():
   else:
     splitter = whitespace_splitter
   fields = args['<fields>'].split(",")
-  logs = fileinput.input(args['<files>'])
+  logs = fileinput.input(args['<files>'], openhook=hook_nobuf)
   reader = iter(DictReader(fields, logs, splitter))
 
   while True:
